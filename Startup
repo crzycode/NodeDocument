@@ -2,7 +2,7 @@
 npm init --y
 npm i @types/node
 npm i express
-nmp i @types/express
+npm i @types/express
 npm i nodemon
 npm i ts-node
 
