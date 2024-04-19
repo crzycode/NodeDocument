@@ -1,0 +1,19 @@
+import { HomeRoute } from "./Routes/HomeRoutes";
+import { UserRoute } from "./Routes/UserRoutes";
+
+var express = require('express')
+const Routers  = express.Router();
+Routers.use('/', HomeRoute);
+Routers.use('/', UserRoute);
+export default Routers
+
+//use here
+
+import express,{Request,Response} from 'express'
+import Routers from './RootRouter'
+const app = express()
+const PORT = 4011
+app.use('/',Routers)
+app.listen(PORT,() =>{
+    console.log("Hello world")
+})
