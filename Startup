@@ -11,3 +11,51 @@ npm i ts-node
     "test": "echo \"Error: no test specified\" && exit 1",
     "start":"nodemon ./src/index.ts"
   },
+create src folder in folder create index.ts
+
+import express,{Request,Response} from 'express'
+
+import { HomeRoute } from './Routes/HomeRoutes'
+import { UserRoute } from './Routes/UserRoutes'
+const app = express()
+const PORT = 4011
+app.use('/',HomeRoute)
+app.use('/',UserRoute)
+app.listen(PORT,() =>{
+    console.log("Hello world")
+})
+//create Router Folder
+//Routers
+//home router
+import express,{Request,Response} from 'express'
+import Home from '../Controllers/HomeController/HomeContrller'
+const HomeRoute = express.Router()
+
+HomeRoute.get("/home",Home)
+
+export {HomeRoute}
+
+//user router
+import express,{Request,Response} from 'express'
+import User from '../Controllers/UserController/UserContrller'
+const UserRoute = express.Router()
+
+UserRoute.get("/user",User)
+
+export {UserRoute}
+
+//create controller Folder
+HomeContrller.ts
+
+import express,{Request,Response} from 'express'
+const Home = (req:Request,res:Response) =>{
+    res.send("Home page")
+}
+export default Home
+
+//UserController.ts
+import express,{Request,Response} from 'express'
+const User = (req:Request,res:Response) =>{
+    res.send("User page")
+}
+export default User
