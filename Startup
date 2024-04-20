@@ -5,6 +5,8 @@ npm i express
 npm i @types/express
 npm i nodemon
 npm i ts-node
+npm install typescript
+tsc --init // in cmd
 
 
   "scripts": {
