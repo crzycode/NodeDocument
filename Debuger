@@ -1,0 +1,16 @@
+//in tsconfig file
+ "sourceMap": true, 
+"outDir": "./bin",
+  "rootDir": "./src",  
+// run cmd 
+tsc // it comile ts file to js 
+
+after that 
+ // run this command
+node --inspect bin/index.js 
+
+//open chrome browser
+on url bar
+chrome://inspect
+
+click on inspect 
