@@ -1,1 +1,20 @@
 npm i mongoose @types/mongoose
+
+
+
+import mongoose,{connect} from "mongoose";
+
+export function MongoConnect(){
+   return connect("mongodb://localhost:27017").then((res) => console.log("Connected")).catch((err) =>{console.log(err)})
+}
+
+/// import in index.ts file
+import express,{Request,Response} from 'express'
+import { MongoConnect } from './Config/MongodbConnection'
+
+const app = express()
+const PORT = 4011
+MongoConnect()
+app.listen(PORT,() =>{
+    console.log("Hello world")
+})
