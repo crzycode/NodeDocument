@@ -2,34 +2,15 @@ npm install --save  swagger-ui-express
 npm install --save-dev @types/swagger-ui-express
 npm install --save-dev @types/swagger-jsdoc 
 npm install --save swagger-jsdoc
-
 import express from 'express'
 import Routers from './Rootrouter'
 import { MongoConnect } from './Config/MongodbConnection'
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import * as swaggerDocument from "../swagger.json";
 
 const app = express()
-
-const options = {
-    definition: {
-      openapi: "3.0.1",
-      info: {
-        title: "REST API for Swagger Documentation",
-        version: "1.0.0",
-      },
-      schemes: ["http", "https"],
-      servers: [{ url: "http://localhost:4011/" }],
-    },
-    apis: [
-      `./src/Routers/UserRouter.ts`,
-      "./bin/Routers/UserRouter.js",
-    ],
-  };
-
-  
-const swaggerSpec = swaggerJSDoc(options);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const PORT = 4011
 app.use(express.json())
@@ -38,55 +19,93 @@ MongoConnect()
 app.listen(PORT,() =>{
     console.log("Hello world")
 })
-
-
-//every route should have
-
-import { Router } from "express";
-import { exampleFunction } from "../controller/example";
-
-const router = Router();
-
-/**
- * @swagger
- * /example:
- *      post:
- *          summary: Send the text to the server
- *          tags:
- *              - ExampleEndpoints
- *          description: Send a message to the server and get a response added to the original text.
- *          requestBody:
- *              required: true
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              responseText:
- *                                  type: string
- *                                  example: This is some example string! This is an endpoint
- *          responses:
- *              201:
- *                  description: Success
- *                  content:
- *                      application/json:
- *                          schema:
- *                              type: object
- *                              properties:
- *                                  text:
- *                                      type: string
- *                                      example: This is some example string!
- *              404:
- *                  description: Not found
- *              500:
- *                  description: Internal server error
- */
-router.post("/example", exampleFunction);
-
-export default router;
-
-
-// tsconfig file
+//swagger.json
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "REST API for Swagger Documentation",
+    "version": "1.0.0"
+  },
+  "schemes": ["http"],
+  "servers": [{ "url": "http://localhost:4011/" }],
+  "paths": {
+    "/api/user/getuser": {
+      "get": {
+        "tags": ["ExampleEndpoints"],
+        "summary": "Send a text to the server",
+        "description": "Send a message to the server and get a response added to the original text.",
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExampleSchemaBody"
+                }
+              }
+            }
+          },
+          "404": { "description": "Not found" },
+          "500": { "description": "Internal server error" }
+        }
+      }
+    },
+    "/api/user/createuser": {
+      "post": {
+        "tags": ["ExampleEndpoints"],
+        "summary": "Send a text to the server",
+        "description": "Send a message to the server and get a response added to the original text.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type":"object",
+                "properties":{"name":{"type":"string","example":"string"},"age":{"type":"number","example":0}}
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExampleSchemaBody"
+                }
+              }
+            }
+          },
+          "404": { "description": "Not found" },
+          "500": { "description": "Internal server error" }
+        }
+      }
+    }
+  },
+  
+  "components": {
+    "schemas": {
+      "ExampleSchemaBody": {
+        "properties": {
+          "responseText": {
+            "type": "string",
+            "example": "This is some example string! This is an endpoint"
+          }
+        }
+      },
+      "ExampleSchemaHeader": {
+        "required": ["text"],
+        "properties": {
+          "text": {
+            "type": "string",
+            "example": "This is some example string!"
+          }
+        }
+      }
+    }
+  }
+}
 
 {
   "compilerOptions": {
