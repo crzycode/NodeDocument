@@ -1,0 +1,104 @@
+npm install --save  swagger-ui-express
+npm install --save-dev @types/swagger-ui-express
+npm install --save-dev @types/swagger-jsdoc 
+npm install --save swagger-jsdoc
+
+import express from 'express'
+import Routers from './Rootrouter'
+import { MongoConnect } from './Config/MongodbConnection'
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
+
+const app = express()
+
+const options = {
+    definition: {
+      openapi: "3.0.1",
+      info: {
+        title: "REST API for Swagger Documentation",
+        version: "1.0.0",
+      },
+      schemes: ["http", "https"],
+      servers: [{ url: "http://localhost:4011/" }],
+    },
+    apis: [
+      `./src/Routers/UserRouter.ts`,
+      "./bin/Routers/UserRouter.js",
+    ],
+  };
+
+  
+const swaggerSpec = swaggerJSDoc(options);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+const PORT = 4011
+app.use(express.json())
+app.use('/api',Routers)
+MongoConnect()
+app.listen(PORT,() =>{
+    console.log("Hello world")
+})
+
+
+//every route should have
+
+import { Router } from "express";
+import { exampleFunction } from "../controller/example";
+
+const router = Router();
+
+/**
+ * @swagger
+ * /example:
+ *      post:
+ *          summary: Send the text to the server
+ *          tags:
+ *              - ExampleEndpoints
+ *          description: Send a message to the server and get a response added to the original text.
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              responseText:
+ *                                  type: string
+ *                                  example: This is some example string! This is an endpoint
+ *          responses:
+ *              201:
+ *                  description: Success
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  text:
+ *                                      type: string
+ *                                      example: This is some example string!
+ *              404:
+ *                  description: Not found
+ *              500:
+ *                  description: Internal server error
+ */
+router.post("/example", exampleFunction);
+
+export default router;
+
+
+// tsconfig file
+
+{
+  "compilerOptions": {
+    "target": "es2016" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
+    "module": "commonjs" /* Specify what module code is generated. */,
+    "rootDir": "./src" /* Specify the root folder within your source files. */,
+    "moduleResolution": "node" /* Specify how TypeScript looks up a file from a given module specifier. */,
+    "resolveJsonModule": true /* Enable importing .json files. */,
+    "outDir": "./dist" /* Specify an output folder for all emitted files. */,
+    "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */,
+    "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
+    "strict": true /* Enable all strict type-checking options. */,
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */
+  }
+}
