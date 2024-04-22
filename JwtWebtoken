@@ -1,0 +1,46 @@
+npm i jsonwebtoken
+npm install -D @types/jsonwebtoken
+//generate token
+  public static Token = (user:any, Key:any,expireIn:any) =>{
+      const token = Jwt.sign(user, Key, {expiresIn: expireIn});
+      return token
+    }
+//verify token
+
+import {Request,Response,NextFunction} from 'express'
+import Jwt,{ JwtPayload } from 'jsonwebtoken';
+import { SECRET_KEY } from '../Config/Key';
+import { Message } from '../Message/Message';
+
+
+
+export interface CustomRequest extends Request {
+    token: string | JwtPayload;
+   }
+export function Auth(req:Request,res:Response,next:NextFunction){
+    try{
+        const token = req.header('Authorization')?.replace('Bearer ', '');
+        if (!token) {
+            throw new Error();
+          }
+          const decoded = Jwt.verify(token, SECRET_KEY);
+          (req as CustomRequest).token = decoded;
+       
+          next();
+    }catch(err){
+        res.json(Message.Error("Authentication Failed",null,401,"Authentication"))
+    }
+
+}
+
+//use as 
+
+import express from 'express'
+import { RegistrationController } from '../Module/RegistrationModule/Controller/RegistrationController'
+import { HomeController } from '../Module/RegistrationModule/Controller/HomeController'
+import { Auth } from '../Common/VerifyToken'
+const HomeRoute = express.Router()
+var Controller = new HomeController()
+HomeRoute.get("/",Auth,Controller.Home)
+
+export default HomeRoute
