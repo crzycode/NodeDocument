@@ -1,0 +1,135 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "REST API for Swagger Documentation",
+    "version": "1.0.0"
+  },
+  "schemes": ["http"],
+  "servers": [{ "url": "http://localhost:4002/" }],
+  "paths": {
+    "/api/Register/Createuser": {
+      "post": {
+        "tags": ["Registration"],
+        "summary": "",
+        "description": "Send a message to server",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/Register"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Succcess",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Register"
+                }
+              }
+            }
+          },
+          "404": { "description": "Not found" },
+          "500": { "description": "Internal server error" }
+        }
+      }
+    },
+    "/api/Register/Login": {
+      "post": {
+        "tags": ["Registration"],
+        "summary": "",
+        "description": "Send a message to server",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Succcess",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Login"
+                }
+              }
+            }
+          },
+          "404": { "description": "Not found" },
+          "500": { "description": "Internal server error" }
+        }
+      }
+    },
+    "/api/Home": {
+      "get": {
+        "tags": ["Registration"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "",
+        "description": "Send a message to server",
+        "responses": {
+          "201": {
+            "description": "Succcess",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Login"
+                }
+              }
+            }
+          },
+          "404": { "description": "Not found" },
+          "500": { "description": "Internal server error" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      },
+    "schemas": {
+      "Register": {
+        "properties": {
+          "Name": { "type": "string", "example": "Name" },
+          "Email": { "type": "string", "example": "Email@email.com" },
+          "Number": { "type": "number", "example": 1234567890 },
+          "Password": { "type": "string", "example": "Password" }
+        }
+      },
+      "Login": {
+        "properties": {
+          "Username": { "type": "string", "example": "Email@email.com" },
+          "Password": { "type": "string", "example": "Password" }
+        }
+      },
+      "ExampleSchemaHeader": {
+        "required": ["text"],
+        "properties": {
+          "text": {
+            "type": "string",
+            "example": "This is some example string!"
+          }
+        }
+      }
+    }
+  }
+}
