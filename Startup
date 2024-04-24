@@ -61,3 +61,6 @@ const User = (req:Request,res:Response) =>{
     res.send("User page")
 }
 export default User
+
+// ts config
+
