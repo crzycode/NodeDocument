@@ -6,3 +6,7 @@ RUN npm install
 COPY . .
 EXPOSE 4004
 CMD [ "npm", "start"]
+
+docker build -t crud .
+
+docker run -it -p 4004:4004 crud
