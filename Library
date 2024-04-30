@@ -6,3 +6,10 @@ npm install typescript
 npm i --save express @types/expres
 npm i --save mongoose @types/mongoose
 npm install dotenv && npm install --save-dev @types/dotenv
+
+npm install jsonwebtoken
+npm i -D @types/jsonwebtoken
+npm install cors
+npm install -D @types/cors
+
+npm install bcryptjs @types/bcryptjs
