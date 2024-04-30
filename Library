@@ -5,3 +5,4 @@ npm i ts-node
 npm install typescript
 npm i --save express @types/expres
 npm i --save mongoose @types/mongoose
+npm install dotenv && npm install --save-dev @types/dotenv
