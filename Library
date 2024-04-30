@@ -1,7 +1,7 @@
 
 npm i @types/node
-npm i express
-npm i @types/express
 npm i -D nodemon
 npm i ts-node
 npm install typescript
+npm i --save express @types/expres
+npm i --save mongoose @types/mongoose
