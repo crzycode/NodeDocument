@@ -14,3 +14,5 @@ npm install -D @types/cors
 
 npm install bcrypt --save
 npm i @types/bcrypt
+
+npm install nodemailer @types/nodemailer
