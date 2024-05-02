@@ -1,16 +1,34 @@
-//in tsconfig file
- "sourceMap": true, 
-"outDir": "./bin",
-  "rootDir": "./src",  
-// run cmd 
-tsc // it comile ts file to js 
+//Launch.js
+   "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Build Project",
+            "program": "${workspaceFolder}\\src\\App.ts",
+            "preLaunchTask": "npm: build",
+            "sourceMaps": true,
+            "smartStep": true,
+            "internalConsoleOptions": "openOnSessionStart",
+            "outFiles": [
+                "${workspaceFolder}/bin/**/*.js"
+            ]
+        }
+    ]
 
-after that 
- // run this command
-node --inspect bin/index.js 
+//tscconfig.ts
 
-//open chrome browser
-on url bar
-chrome://inspect
-
-click on inspect 
+"compilerOptions": {
+ "target": "es2016", 
+ "experimentalDecorators": true,                   
+  "emitDecoratorMetadata": true,
+ "module": "commonjs", 
+ "rootDir": "./src",                                  
+"moduleResolution": "node10",                     
+  "resolveJsonModule": true,  
+ "sourceMap": true,  
+    "outDir": "./bin", 
+    "esModuleInterop": true, 
+  "forceConsistentCasingInFileNames": true, 
+"strict": true, 
+ "skipLibCheck": true 
+}
