@@ -3,7 +3,7 @@ npm i @types/node
 npm i -D nodemon
 npm i ts-node
 npm install typescript
-npm i --save express @types/expres
+npm i --save express @types/express
 npm i --save mongoose @types/mongoose
 npm install dotenv && npm install --save-dev @types/dotenv
 
@@ -16,3 +16,4 @@ npm install bcrypt --save
 npm i @types/bcrypt
 
 npm install nodemailer @types/nodemailer
+npm i redis
