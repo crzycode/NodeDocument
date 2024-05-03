@@ -16,4 +16,5 @@ npm install bcrypt --save
 npm i @types/bcrypt
 
 npm install nodemailer @types/nodemailer
-npm i redis
+npm install redis --save
+npm install @types/redis --save-dev
