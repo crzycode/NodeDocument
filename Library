@@ -21,3 +21,6 @@ npm install @types/redis --save-dev
 
 npm install mssql --save
 npm install @types/mssql --save-dev
+
+npm i compression
+npm i @types/compression
