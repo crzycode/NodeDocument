@@ -1,0 +1,6 @@
+import { createClient } from "redis";
+
+export const RedisClient = createClient({url:'redis://103.255.39.###:6379'})
+
+// this is how to use
+ await RedisClient.set("Users",JSON.stringify(Userdata.recordset),{EX:60,NX:true})
