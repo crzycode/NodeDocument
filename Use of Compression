@@ -1,0 +1,22 @@
+import express from 'express'
+import Router from './RootRoutes'
+import { RedisClient } from './App/Config/Redis.config';
+import compression from 'compression'
+
+
+const app = express()
+const PORT = 4003
+app.use(compression())
+app.use('/',Router)
+
+const start = async() =>{
+    try{
+        await RedisClient.connect()
+        app.listen(PORT,() =>{
+            console.log("Working")
+        })
+    }catch(err){
+        console.log(err)
+    }
+} 
+start()
