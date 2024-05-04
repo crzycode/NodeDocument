@@ -24,3 +24,6 @@ npm install @types/mssql --save-dev
 
 npm i compression
 npm i @types/compression
+
+npm install -g redis-commander
+
