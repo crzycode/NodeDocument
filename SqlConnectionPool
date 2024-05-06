@@ -1,7 +1,7 @@
 export const pool = new sql.ConnectionPool({
     user: 'Mangal',
     password: 'kali',
-    server: '103.255.39.101',
+    server: '103.255.###.###',
     database: 'test',
     options: {
       encrypt: false,
