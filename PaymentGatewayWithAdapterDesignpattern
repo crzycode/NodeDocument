@@ -1,0 +1,55 @@
+// Common interface
+class PaymentGateway {
+  processPayment(amount, cardInfo) {}
+  refundPayment(transactionId, amount) {}
+  handleCallback(request) {}
+}
+
+// Adapter for Gateway A
+class GatewayAAdapter extends PaymentGateway {
+  processPayment(amount, cardInfo) {
+    // Logic to process payment via Gateway A API
+  }
+
+  refundPayment(transactionId, amount) {
+    // Logic to refund payment via Gateway A API
+  }
+
+  handleCallback(request) {
+    // Logic to handle callback from Gateway A
+  }
+}
+
+// Adapter for Gateway B
+class GatewayBAdapter extends PaymentGateway {
+  processPayment(amount, cardInfo) {
+    // Logic to process payment via Gateway B API
+  }
+
+  refundPayment(transactionId, amount) {
+    // Logic to refund payment via Gateway B API
+  }
+
+  handleCallback(request) {
+    // Logic to handle callback from Gateway B
+  }
+}
+
+// Payment gateway factory
+class PaymentGatewayFactory {
+  static getPaymentGateway(adapterType) {
+    switch (adapterType) {
+      case 'GatewayA':
+        return new GatewayAAdapter();
+      case 'GatewayB':
+        return new GatewayBAdapter();
+      default:
+        throw new Error('Unsupported payment gateway');
+    }
+  }
+}
+
+// Example usage
+const gatewayType = 'GatewayA';
+const paymentGateway = PaymentGatewayFactory.getPaymentGateway(gatewayType);
+paymentGateway.processPayment(100, cardInfo);
