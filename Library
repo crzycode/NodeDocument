@@ -28,5 +28,7 @@ npm i @types/compression
 npm i axios
 npm i --save-dev @types/axios
 
+npm install morgan @types/morgan
+
 npm install -g redis-commander
 
