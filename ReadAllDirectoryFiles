@@ -1,0 +1,16 @@
+var Directory = "D:\\Node Practice\\ExterPaymentGateway\\Paypal";
+function ThroughDirectory(Directory: any) {
+  fs.readdirSync(Directory).forEach((File,index,array) => {
+    const Absolute = path.join(Directory, File);
+    if (fs.statSync(Absolute).isDirectory()) {
+       console.log( path.basename(Absolute))
+       if(path.basename(Absolute) != "node_modules"){
+        ThroughDirectory(Absolute);
+       }
+    } else {
+      if (path.extname(Absolute).toString() == ".js") {
+        Files.push(Absolute);
+      }
+    }
+  });
+}
