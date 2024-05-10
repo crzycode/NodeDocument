@@ -1,0 +1,9 @@
+import * as tar from 'tar'
+function decomressFile(){
+    const tgzFilePath = "D:\\Node Practice\\ExterPaymentGateway\\Paypal\\paypal.tgz";
+    const outputDir = 'D:\\Node Practice\\DetectTheCode\\Mangal';
+    tar.x({C:outputDir,f:tgzFilePath,strip:1})
+    
+    
+
+}
