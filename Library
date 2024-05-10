@@ -34,4 +34,6 @@ npm install -g redis-commander
 
 npm i @types/natural
 npm i natural
+npm install stopword
+npm install @types/stopword
 
