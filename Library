@@ -37,3 +37,6 @@ npm i natural
 npm install stopword
 npm install @types/stopword
 
+npm install @types/tar
+npm install tar
+
