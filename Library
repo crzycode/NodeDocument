@@ -32,3 +32,6 @@ npm install morgan @types/morgan
 
 npm install -g redis-commander
 
+npm i @types/natural
+npm i natural
+
