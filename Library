@@ -40,3 +40,6 @@ npm install @types/stopword
 npm install @types/tar
 npm install tar
 
+npm install multer
+npm install @types/multer
+
