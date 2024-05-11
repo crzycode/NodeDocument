@@ -1,0 +1,74 @@
+export class Detection {
+  static Filename:any = ""
+  static Error:any[] =[]
+  static Filepath:any[] =[]
+  static ext:any[] = [".js",".txt",".json"]
+  static isInfectedFile:Boolean = true
+   res:any
+  static readFileInTgz = async (filePath: any) => {
+    console.time()
+     const lineF = (filePath: any) =>
+      readline.createInterface({
+        input: fs.createReadStream(filePath).pipe(zlib.createGunzip()),
+        crlfDelay: Infinity,
+      });
+     await tar.t({file:filePath,onentry(entry) {
+          if(!Detection.ext.includes(path.extname(entry.path))){
+          var obj:any = {
+          path:path.basename(entry.path),
+          message:`This File ${path.basename(entry.path)} looks Harmful`,
+          }
+            Detection.Error.push(obj)
+            Detection.isInfectedFile = false
+          }else{
+            Detection.Filepath.push(entry.path)
+          }
+      }})
+      if(Detection.isInfectedFile){
+        for await (const line of lineF(filePath)) {
+            for await (let i of Detection.Filepath){
+              if(line.includes(i)){
+                Detection.Filename = path.basename(i)
+              }
+            }
+        const customStopwords = [
+            "eval",
+            "unenscape",
+            // "SetCookie",
+            // "GetCookie",
+            "newActiveXObject",
+            "os",
+            "exec",
+            "document.cookie",
+          ];
+          var tokens = new natural.WordTokenizer();
+          var t = tokens.tokenize(line);
+          var filter = t.filter((tok) => customStopwords.includes(tok));
+          if(Detection.ext.includes(path.extname(Detection.Filename))){
+            if(filter.length > 0){
+              var obj:any= {
+                path:path.basename(Detection.Filename),
+                message:`Find Some Malicious Code this ${path.basename(Detection.Filename)} File is Dangerous`,
+                line:line
+            }
+            Detection.Error.push(obj)
+            }
+          }else{
+            var obj:any = {
+              path:path.basename(Detection.Filename),
+              message:`This File Does not support ${path.basename(Detection.Filename)} File is Dangerous`,
+            }
+            Detection.Error.push(obj)
+          }    
+        }
+      }
+      if(Detection.Error.length > 0){
+        console.timeEnd()
+        return {Message:"Failed",data:Detection.Error}
+      }else{
+        console.timeEnd()
+        return {Message:"Success",data:null}
+      }
+   
+  };
+}
