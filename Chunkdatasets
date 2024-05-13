@@ -1,0 +1,20 @@
+    // static Chunkdatasets = async(req:Request,res:Response) =>{
+    //     var ParentKey = "userid"
+    //     var Count = "count"
+    //     var data = "data"
+    //     var Cachedata:any = await RedisClient.hGet(ParentKey,Count)
+    //     if(Cachedata){
+    //         console.log(Cachedata)
+    //         var pool =  await sqlDb()
+    //         var Userdata:any = await pool?.request().query(`select id,Brand,Description,URL_image,Category_by_gender,Discount,OriginalPrice,Color
+    //         from Products order by id offset ${Number(Cachedata)} rows FETCH NEXT 1000 rows only`)
+    //          RedisClient.hSet(ParentKey,Count,JSON.stringify(Number(Cachedata)+Userdata.recordset.length))
+    //          res.json(Userdata.recordset)
+    //     }else{
+    //         var pool =  await sqlDb()
+    //         var Userdata:any = await pool?.request().query(`select id,Brand,Description,URL_image,Category_by_gender,Discount,OriginalPrice,Color
+    //         from Products order by id offset 0 rows FETCH NEXT 1000 rows only`)
+    //          RedisClient.hSet(ParentKey,Count,JSON.stringify(Userdata.recordset.length))
+    //          res.json(Userdata.recordset)
+    //     }
+    // }
