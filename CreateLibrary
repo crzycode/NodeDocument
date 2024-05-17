@@ -1,0 +1,12 @@
+npm init -y 
+edit Package.json
+add
+  "files": [
+    "lib/**/*"
+  ]
+ "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "main": "lib/Shupple.js",
+  "types": "lib/Shupple.d.ts",
