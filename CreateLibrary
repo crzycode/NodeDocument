@@ -8,5 +8,18 @@ add
     "build": "tsc",
     "prepare": "npm run build"
   },
-  "main": "lib/Shupple.js",
-  "types": "lib/Shupple.d.ts",
+  "main": "lib/Mainfile_name.js",
+  "types": "lib/Mainfile_name.d.ts",
+////// ---------tsconfig--------------
+tsc --init
+
+include this 
+  "compilerOptions": {
+ "rootDir": "./src",      
+  "declaration": true,        
+"outDir": "./lib", 
+  },
+ "include": ["src"],
+  "exclude": ["node_modules","**/__test__/*"]
+////---create src folder
+add main file exp app.ts
