@@ -1,0 +1,90 @@
+
+    import express from 'express'
+    import RootRouter from './src/RootRouter'
+    import http from 'http'
+import localtunnel from 'localtunnel'
+import { exec } from 'child_process'
+
+    const app = express()
+    app.use(express.json())
+    const PORT = 3001
+    const PORT_POOL_SIZE = 1000;
+    let availablePorts = new Set();
+
+    for (let i = 8000; i < 8000 + PORT_POOL_SIZE; i++) {
+        availablePorts.add(i);
+    }
+
+    app.use((req, res, next) => {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        next();
+      });
+    const server = http.createServer((req, res) => {
+        if (req.url === '/requestPort') {
+            if (availablePorts.size === 0) {
+                res.writeHead(503, { 'Content-Type': 'text/plain' });
+                res.end('No available ports at the moment. Please try again later.');
+            } else {
+                // Get an available port from the pool
+                const port = availablePorts.values().next().value;
+                availablePorts.delete(port);
+    
+                // Respond with the assigned port
+                res.writeHead(200, { 'Content-Type': 'text/plain' });
+                res.end(port.toString());
+    
+                // Start LocalTunnel for the assigned port with custom subdomain
+                startLocalTunnel(port);
+            }
+        } else {
+            res.writeHead(404, { 'Content-Type': 'text/plain' });
+            res.end('Not Found');
+        }
+    });
+  
+    server.listen(PORT,() =>{
+        console.log("Listing on "+ ' ' +PORT)
+
+    })
+    function releasePort(port:any) {
+        availablePorts.add(port);
+    }
+    function startLocalTunnel(port:any) {
+        localtunnel({ port, subdomain: `app${port}` }, (err, tunnel:any) => {
+            if (err) {
+                console.error('LocalTunnel error:', err);
+                // Release the port back to the pool if LocalTunnel fails
+                releasePort(port);
+            } else {
+                console.log(`LocalTunnel URL for port ${port}: ${tunnel.url}`);
+                // Close the tunnel if it's closed by the client
+                tunnel.on('close', () => {
+                    console.log(`LocalTunnel for port ${port} closed`);
+                    // Release the port back to the pool
+                    releasePort(port);
+                });
+            }
+        });
+    }
+
+    // setInterval(() => {
+    //     exec('netstat -tuln', (error, stdout:any, stderr) => {
+    //         if (error) {
+    //             console.error(`exec error: ${error}`);
+    //             return;
+    //         }
+    //         // Extract ports from netstat output
+    //         const usedPorts = stdout.match(/:(\d+)\s+/g).map((port:any) => parseInt(port.slice(1)));
+    //         for (let port of usedPorts) {
+    //             if (availablePorts.has(port)) {
+    //                 availablePorts.delete(port);
+    //             }
+    //         }
+    //         // Release ports that are not in use anymore
+    //         for (let port of availablePorts) {
+    //             if (!usedPorts.includes(port)) {
+    //                 releasePort(port);
+    //             }
+    //         }
+    //     });
+    // }, 5000);
