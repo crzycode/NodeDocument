@@ -1,0 +1,66 @@
+//
+server.ts
+export class Server{
+    public app:core.Application = express()
+    
+    init() {
+        this.setCongiguration()
+        
+    }
+    setCongiguration() {
+       socketservice.initsocket(myserver)
+       SocketHandler.connectSocket()
+       this.app.use(cors());
+       this.app.use(express.json());
+       this.app.use("/api", RootRouter);
+      
+        
+    }
+}
+
+
+//sockethandler.ts
+
+import { socketservice } from "./SocketService";
+
+export class SocketHandler{
+    static connectSocket(){
+        socketservice.io.on('connection',(socket:any) =>{
+            console.log("connected with socket")
+            socket.on('message',(data:any) =>{
+                console.log(data)
+          })
+        })
+    }
+}
+
+// socketservice.ts
+
+import { Server } from "socket.io";
+
+export class socketservice{
+    public static io:any;
+    static initsocket(server:any){
+        socketservice.io = new Server(server,{
+            cors: {
+                origin: '*',
+              }
+        })
+        return socketservice.io
+    }
+}
+
+//app.ts
+
+
+const server = new Server()
+const apps = server.app
+export const myserver = apps.listen(PORT, () => {
+  console.log("Listing on " + " " + PORT);
+  server.init()
+});
+
+
+// how to send message to client
+
+socketservice.io.emit('message',sand.App_id)
